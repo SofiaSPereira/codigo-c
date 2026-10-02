@@ -1,0 +1,52 @@
+#include <stdio.h>
+
+typedef struct {
+    int numerador;
+    int denominador;
+} Fracao;
+
+Fracao criarFracao(int numerador, int denominador) {
+    Fracao f;
+    f.numerador = numerador;
+    f.denominador = denominador;
+    return f;
+}
+
+Fracao simplificarFracao(Fracao F) {
+    int MDC = 1;
+    int aux = (F.numerador > F.denominador) ? F.denominador : F.numerador;
+
+    for (int i = 1; i <= aux; i++)
+        if (F.numerador % i == 0 && F.denominador % i == 0)
+            MDC = i;
+
+    F.numerador = F.numerador / MDC;
+    F.denominador = F.denominador / MDC;
+
+    return F;
+}
+
+// Função para multiplicar duas frações
+Fracao multiplicarFracao(Fracao F, Fracao G) {
+    Fracao resultado;
+
+    resultado.numerador = F.numerador * G.numerador;
+    resultado.denominador = F.denominador * G.denominador;
+    resultado = simplificarFracao(resultado);
+
+    return resultado;
+}
+
+int main()
+{
+    Fracao f1 = criarFracao(5, 3);
+    Fracao f2 = criarFracao(5, 4);
+
+    Fracao mult = multiplicarFracao(f1, f2);
+
+    printf("Fracao 1: %d/%d\n", f1.numerador, f1.denominador);
+    printf("Fracao 2: %d/%d\n", f2.numerador, f2.denominador);
+    printf("Multiplicacao simplificada: %d/%d\n", mult.numerador, mult.denominador);
+
+    return 0;
+}
